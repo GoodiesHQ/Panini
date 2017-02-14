@@ -37,7 +37,7 @@ public:
 
 private:
     ini_t m_ini;
-    std::mutex m_mu;
+    mutable std::mutex m_mu;
 };
 
 void Panini::read(const std::string &filename) {
