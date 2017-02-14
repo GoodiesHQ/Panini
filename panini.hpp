@@ -109,6 +109,7 @@ std::string& Panini::trim(std::string& str) {
 
 // Retrieve the property value from a section. Throws a SectionNotFound or PropertyNotFound runtime_error if it does not exist
 const std::string& Panini::get(const std::string& section, const std::string& property) const{
+    std::lock_guard<std::mutex> lock(m_mu); 
     auto sectionEntry = m_ini.find(section);
     if(sectionEntry == m_ini.end()){
         throw SectionNotFound();
