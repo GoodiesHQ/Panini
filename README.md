@@ -9,8 +9,8 @@ Panini is a very simple, header-only, gluten-free INI-format configuration file 
 ```ini
 [general]
 ; some general information about the file
-interface=eth0
-connections=100
+interface = eth0
+connections = 100
 
 [testing]
 ; some test parameters
@@ -41,7 +41,7 @@ int main(int argc, char **argv){
 		// Provide another type via a template
         unsigned connections = p.get<unsigned>("general", "connections");
         double my_double = p.get<double>("testing", "my_double");
-        int my_int = p.get<int>("testing", "my_double");
+        int my_int = p.get<int>("testing", "my_int");
     }catch(const std::runtime_error &e){
         std::cerr << e.what();
         return -1;
