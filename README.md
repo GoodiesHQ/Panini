@@ -35,7 +35,7 @@ int main(int argc, char **argv){
 	    // Read and parse the INI file
         Panini p(argv[1]);
 		
-		// Defaults to const string&
+		// Defaults to std::string (copy)
         auto interface = p.get("general", "interface");
 		
 		// Provide another type via a template
