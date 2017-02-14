@@ -30,15 +30,22 @@ class Panini{
 
 public:
     Panini(void) = default;
+    Panini(const std::string& filename);
     void read(const std::string& filename);
     static std::string& trim(std::string& str);
-    const std::string& get(const std::string& section, const std::string& property) const;
-    template<typename T> T getParse(const std::string& section, const std::string& property) const;
+    std::string get(const std::string& section, const std::string& property) const;
+    template<typename T> const T get(const std::string& section, const std::string& property) const;
+    //template<typename T=const std::string&> T getParse(const std::string& section, const std::string& property) const;
+
 
 private:
     ini_t m_ini;
     mutable std::mutex m_mu;
 };
+
+Panini::Panini(const std::string &filename) {
+    read(filename);
+}
 
 void Panini::read(const std::string &filename) {
     std::ifstream file(filename.c_str());
@@ -108,8 +115,8 @@ std::string& Panini::trim(std::string& str) {
 }
 
 // Retrieve the property value from a section. Throws a SectionNotFound or PropertyNotFound runtime_error if it does not exist
-const std::string& Panini::get(const std::string& section, const std::string& property) const{
-    std::lock_guard<std::mutex> lock(m_mu); 
+std::string Panini::get(const std::string& section, const std::string& property) const{
+    std::lock_guard<std::mutex> lock(m_mu);
     auto sectionEntry = m_ini.find(section);
     if(sectionEntry == m_ini.end()){
         throw SectionNotFound();
@@ -123,9 +130,9 @@ const std::string& Panini::get(const std::string& section, const std::string& pr
 }
 
 template<typename T>
-T Panini::getParse(const std::string& section, const std::string& property) const {
+const T Panini::get(const std::string& section, const std::string& property) const {
     T t;
-    auto value = get(section, property);
+    auto value = this->get(section, property);
     std::istringstream iss(value);
     iss >> t;
     if (iss.fail()) {
