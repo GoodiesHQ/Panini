@@ -1,6 +1,6 @@
 # Panini
 
-**P**arse **A**nd i**N**tegrate  **INI** Files
+**P**arse **an**  **INI** File with Panini!
 
 Panini is a very simple, header-only, gluten-free INI-format configuration file parser.
 
@@ -42,7 +42,7 @@ int main(int argc, char **argv){
         unsigned connections = p.get<unsigned>("general", "connections");
         double my_double = p.get<double>("testing", "my_double");
         int my_int = p.get<int>("testing", "my_int");
-    }catch(const std::runtime_error &e){
+    }catch(const panini_error &e){
         std::cerr << e.what();
         return -1;
     }
